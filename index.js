@@ -14,6 +14,8 @@ ConnDB();
 app.use(cors());
 const PORT = process.env.PORT || 7000
 const user = require('./routes/userRoutes');
+const candidates = require('./routes/candidateRoute')
+app.use('/api/v1',candidates);
 app.use('/api/v1',user);
 
 app.listen(PORT,()=>{
