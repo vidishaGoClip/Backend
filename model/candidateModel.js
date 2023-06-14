@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 
 
 const candidateSchema = Schema({
-  title: {
+  firstname: {
     type: String,
-    required: [true, "Please enter the post's title"],
+    required: [true, "Please enter first name"],
   },
-  name: {
+  lastname: {
     type: String,
-    required: [true, "Please enter name"],
+    required: [true, "Please enter last  name"],
   },
   gender: {
     type: String,
@@ -34,7 +34,9 @@ const candidateSchema = Schema({
     type: String,
   },
   skills:[String],
-  preferredJobLocation:[String],
+  preferredJobLocation: {
+    type: String,
+  },
   hobbies:[String],
   certifications:[{
       name:String,
@@ -67,7 +69,7 @@ equivalent:{
   city:String,
   year:Number
 },
-  Status:{ type : String, required: true, default:"processing"},
+  Status:{ type : String, required: true, default:"Process"},
   createdAt: { type: Date, default: Date.now, required: true },
  
  
