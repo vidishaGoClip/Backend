@@ -1,6 +1,7 @@
 const InterviewSchedule = require("../model/interviewScheduleModel");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const sendEmail = require('../utils/sendEmail')
 
 exports.addInterviewSchedule = catchAsyncErrors(async (req, res, next) => {
     const newInterviewSchedule = await InterviewSchedule.create(req.body);
@@ -45,4 +46,31 @@ exports.addInterviewSchedule = catchAsyncErrors(async (req, res, next) => {
     }
   
     
+  });
+
+
+// send Interview link
+exports.sendInterviewlink = catchAsyncErrors(async (req, res, next) => {
+     
+  
+  
+    const message = `Hello`;
+  
+    try {
+      await sendEmail({
+        email: req.body,
+        subject: `Interview`,
+        message,
+      });
+  
+      res.status(200).json({
+       
+        success: true,
+        message: `Email sent   successfully`,
+      });
+    } catch (error) {
+      
+  
+      return next(new ErrorHandler(error.message, 500));
+    }
   });

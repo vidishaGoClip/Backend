@@ -46,7 +46,7 @@ const candidateSchema = Schema({
   Job:[{
     companyName:String,
     role:String,
-    Duration:String
+    Duration:Number
 }],
 postGrad:{
   pg:String,
