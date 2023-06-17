@@ -50,7 +50,7 @@ exports.sendInterviewlink = catchAsyncErrors(async (req, res, next) => {
   try {
     const candidates = await Candidate.find({ email: { $in: req.body.email } });
     for (const candidate of candidates) {
-      console.log(candidate, "candi");
+     
       const message = `
 
        Dear ${candidate.firstname}, 
@@ -59,7 +59,7 @@ We are delighted to inform you that you have been shortlisted for the position o
  
 To select your interview slot, please follow the instructions below: 
  
-Access our interview scheduling portal by clicking on the following link: [Insert Interview Scheduling Link] 
+Access our interview scheduling portal by clicking on the following link: https://oi-jobseeker.vercel.app/
 You will be directed to the scheduling page where you can view available time slots. 
 Choose a date and time that best fits your schedule and click on the corresponding option to reserve your interview slot. 
 Once you have successfully scheduled your interview, you will receive a confirmation email with all the necessary details. 
@@ -79,11 +79,12 @@ ${req.user.companyName}
         message,
       });
 
-      res.status(200).json({
-        success: true,
-        message: `Email sent   successfully`,
-      });
+      
     }
+    res.status(200).json({
+      success: true,
+      message: `Email sent   successfully`,
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 500));
   }
