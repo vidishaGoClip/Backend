@@ -34,9 +34,7 @@ const candidateSchema = Schema({
     type: String,
   },
   skills:[String],
-  preferredJobLocation: {
-    type: String,
-  },
+  preferredJobLocation:[String],
   hobbies:[String],
   certifications:[{
       name:String,
