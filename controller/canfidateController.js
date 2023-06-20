@@ -49,3 +49,16 @@ exports.getAllCandidate = catchAsyncErrors(async (req, res, next) => {
   // res.send('Working Fine')
 });
 
+exports.getCandidateDetails = catchAsyncErrors(async (req, res, next) => {
+  const candidate = await Candidate.findById(req.params.id);
+
+  if (!candidate) {
+    return next(new ErrorHandler("Candidate not found", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    candidate,
+  });
+});
+

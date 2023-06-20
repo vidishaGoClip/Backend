@@ -4,6 +4,7 @@ const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto')
+const bcrypt = require("bcryptjs");
 exports.register = catchAsyncErrors(async (req,res,next)=>{
      const {firstname,lastname,email,password,companyName,phoneNumber,role,sector,plans,confirmPassword} = req.body;
      if(password !==confirmPassword){
@@ -36,7 +37,7 @@ exports.loginUser = catchAsyncErrors(async(req,res,next)=>{
         return next(new ErrorHandler('Invalid Email or Password',401));
     }
     const isPasswordMatched = await user.comparePassword(password);
-
+    
     if(!isPasswordMatched ){
         return next(new ErrorHandler('Invalid Email or Password',401));
     }
@@ -136,3 +137,27 @@ exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
       user,
     });
 })
+
+exports.changePassword = catchAsyncErrors(async (req, res, next) => {
+  const {email} = req.user
+  const {password,newPassword,confirmPassword} = req.body
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.error('User not found');
+      return;
+    }
+    if(newPassword !==confirmPassword){
+      return next(new ErrorHandler(" New Password and Confirm Password are not matching", 400));
+   }
+   user.password = req.body.newPassword;
+   await user.save();
+    
+    res.status(200).json({
+      success:true,
+      data:"Password updated successfully",
+    });
+  } catch (error) {
+    console.error('Error updating password:', error);
+  }
+});
