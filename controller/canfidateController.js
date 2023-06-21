@@ -62,3 +62,31 @@ exports.getCandidateDetails = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+exports.updateCandidateConversation = catchAsyncErrors(async (req, res, next) => {
+  let {assistant, user, useremail, interviewStage} = req.body
+  try {
+    let isAvailable = await Candidate.findOne({ email:useremail })
+    
+    if(isAvailable){
+      
+        let conversationDocument =await Candidate.findByIdAndUpdate({_id: isAvailable._id}, {
+          $push: {
+            "candidateConversation.messages": {assistant:assistant, user:user,interviewStage: interviewStage}
+          }
+        },{ upsert: true, new: true });
+       
+          return res.status(200).json({success:true, message: "Updated",data:conversationDocument})
+    }
+    else {
+      return res.status(404).json({success:false, message: "Candidate is not present"})
+    }
+    
+
+
+} catch (error) {
+    return res.status(500).json({success:false, message:error.message})       
+}
+  
+});
+
+
