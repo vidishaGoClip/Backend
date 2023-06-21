@@ -69,6 +69,9 @@ equivalent:{
 },
   Status:{ type : String, required: true, default:"Process"},
   createdAt: { type: Date, default: Date.now, required: true },
+  candidateConversation:{
+    messages:[{ interviewStage: {type:String}, assistant: { type: String}, user:{type: String}, timestamp:{ type: Date, default: Date.now }}]
+  }
  
  
 });
